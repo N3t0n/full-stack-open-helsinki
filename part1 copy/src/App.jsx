@@ -23,6 +23,7 @@ const App = () => {
       {left}
       <button onClick={handleLeftClick}>left</button>
       <button onClick={handleRightClick}>right</button>
+      <button onClick={() => setAll([])}>reset</button>
       {right}
 
       <p>{allClicks.join(' ')}</p>
