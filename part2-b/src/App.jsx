@@ -2,10 +2,12 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', id: 1, number: 178349085 }
+    { name: 'Arto Hellas', id: 1, number: 178349085 },
+    { name: 'Ada', id: 2, number: 123456789 },
   ]) 
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
+  const [newFilter, setNewFilter] = useState('');
 
  
   const addPerson = (event) => {
@@ -26,6 +28,9 @@ const App = () => {
 
   }
 
+
+
+
   const handleNewName = (event) => {
     setNewName(event.target.value)
   }
@@ -33,15 +38,24 @@ const App = () => {
   const handleNewNumber = (event) => {
     setNewNumber(event.target.value)
   }
+
+  const handleNewFilter = (event) => {
+    setNewFilter(event.target.value)
+  }
+
   
-
-
-
-
+  const namesToShow = newFilter 
+    ? persons.filter((person) => person.name.toLowerCase().includes(newFilter.toLowerCase()))
+    : persons;
+  
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        filter shown with <input value={newFilter} onChange={handleNewFilter}/>
+      </div>
+      <h2>Add a new contact</h2>
       <form onSubmit={addPerson}>
         <div>
           name: <input value={newName} onChange={handleNewName} />
@@ -56,7 +70,7 @@ const App = () => {
       <h2>Numbers</h2>
 
       <ul>
-        {persons.map((person) => (
+        {namesToShow.map((person) => (
           <li key={person.id}>{person.name} - {person.number}</li>
         ))}
       </ul>
