@@ -22,23 +22,32 @@ const App = () => {
     event.preventDefault()
     const personObject = {
       name: newName,
-      id: persons.length + 1,
       number: newNumber,
     }
     const nameExists = persons.some((person => person.name === newName))
     if (nameExists) {
       alert(`${newName} is already added to phonebook!`);
     } else {
-    setPersons(persons.concat(personObject))
-    setNewName('')
-    setNewNumber('')
+      contactService
+        .create(personObject)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+        })
     }
-    contactService
-    .create(personObject)
-    .then(response => {
-      console.log(response)
-    })
+  }
 
+  const deletePerson = (id) => {
+    if (window.confirm("Are you sure you want to delete this contact?")) {
+      console.log(`Deleting person with id ${id}`);
+      contactService
+        .deleteContact(id)
+        .then(response => {
+          console.log(response)
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
   }
 
   const handleNewName = (event) => {
@@ -52,6 +61,7 @@ const App = () => {
   const handleNewFilter = (event) => {
     setNewFilter(event.target.value)
   }
+
 
   
   const namesToShow = newFilter 
@@ -73,7 +83,10 @@ const App = () => {
       />
       <h2>Numbers</h2>
       
-      <ContactList namesToShow={namesToShow} />
+      <ContactList 
+      namesToShow={namesToShow}
+      deletePerson={deletePerson}
+       />
 
     </div>
   )
