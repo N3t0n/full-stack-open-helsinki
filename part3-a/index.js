@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let persons = [
     { 
       "id": 1,
@@ -61,6 +63,14 @@ app.delete('/api/persons/:id', (req, res) => {
     res.status(204).end()
 })
 
+app.post('/api/persons', (req, res) => {
+    const uniqueId = Math.floor(Math.random() * 1000000000)
+    const person = req.body
+    person.id = uniqueId
+    persons = persons.concat(person)
+    console.log(person)
+    res.json(person)
+})
 
 const PORT = 3001
 app.listen(PORT, () => {
