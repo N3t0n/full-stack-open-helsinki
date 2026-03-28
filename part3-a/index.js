@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 
-let notes = [[
+let notes = [
     { 
       "id": 1,
       "name": "Arto Hellas", 
@@ -22,19 +22,30 @@ let notes = [[
       "name": "Mary Poppendieck", 
       "number": "39-23-6423122"
     }
-]]
+]
 
 app.get('/', (req, res) => {
     res.send('<h1>Testing Express</h1>')
 })
 
+app.get('/info', (req, res) => {
+    res.send(`<p>Phonebook has info for ${notes.length} people
+        <br>
+        <br>
+        ${Date()}
+        </p>`
+    )
+    console.log(notes)
+    console.log(Date())
+})
 app.get('/api/persons', (req, res) => {
     res.json(notes)
 })
+
+
 
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
-
 
