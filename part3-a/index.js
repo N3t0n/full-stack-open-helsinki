@@ -1,7 +1,13 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
+
+
+app.use(morgan('tiny'))
 
 app.use(express.json())
+
+
 
 let persons = [
     { 
@@ -25,6 +31,7 @@ let persons = [
       "number": "39-23-6423122"
     }
 ]
+
 
 app.get('/', (req, res) => {
     res.send('<h1>Testing Express</h1>')
