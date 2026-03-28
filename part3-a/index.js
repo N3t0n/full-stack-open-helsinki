@@ -3,7 +3,7 @@ const app = express()
 const morgan = require('morgan')
 
 
-app.use(morgan('tiny'))
+app.use(morgan(':method :url :status :response-time ms'))
 
 app.use(express.json())
 
