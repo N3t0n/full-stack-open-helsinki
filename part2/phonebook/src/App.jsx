@@ -51,9 +51,9 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
       <Filter value={newFilter} onChange={handleNewFilter} />
-      <h2>Add a new contact</h2>
+      <h3>Add a new contact</h3>
       <Form
         onSubmit={addPerson}
         newName={newName}
