@@ -1,18 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Filter from './components/Filter'
 import Form from './components/Form'
 import ContactList from './components/ContactList'
+import axios from 'axios'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', id: 1, number: 178349085 },
-    { name: 'Ada', id: 2, number: 123456789 },
-  ]) 
+  const [persons, setPersons] = useState([]); 
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [newFilter, setNewFilter] = useState('');
 
- 
+ useEffect(() => {
+  axios.get('http://localhost:3001/persons')
+    .then(response => {
+      setPersons(response.data);
+    });
+ }, []);
+
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
@@ -51,9 +55,9 @@ const App = () => {
 
   return (
     <div>
-      <h1>Phonebook</h1>
+      <h2>Phonebook</h2>
       <Filter value={newFilter} onChange={handleNewFilter} />
-      <h3>Add a new contact</h3>
+      <h2>Add a new contact</h2>
       <Form
         onSubmit={addPerson}
         newName={newName}
