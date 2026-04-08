@@ -3,13 +3,23 @@ import Filter from './components/Filter'
 import Form from './components/Form'
 import ContactList from './components/ContactList'
 import contactService from './services/contacts'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]); 
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [newFilter, setNewFilter] = useState('');
+  const [notification, setNotification] = useState(null);
 
+  const showNotification = (message, type) => {
+    setNotification({ message, type })
+
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  }
+  
  useEffect(() => {
   contactService
     .getAll()
@@ -34,6 +44,14 @@ const App = () => {
             setPersons(persons.map(person => person.id !== existingPerson.id ? person : response.data))
             setNewName('')
             setNewNumber('')
+            showNotification(`Updated number for ${newName}`, 'success')
+          })
+          .catch(() => {
+            showNotification(
+              `Information of ${existingPerson.name} has already been removed from server`,
+              'error'
+            )
+            setPersons(persons.filter(person => person.id !== existingPerson.id))
           })
       }
     } else {
@@ -43,8 +61,14 @@ const App = () => {
           setPersons(persons.concat(response.data))
           setNewName('')
           setNewNumber('')
+          showNotification(`Added ${newName}`, 'success')
+        })
+        .catch(error => {
+          showNotification(error.response.data.error, 'error')
+        
         })
     }
+    
   }
 
   const deletePerson = (id) => {
@@ -55,6 +79,7 @@ const App = () => {
         .then(response => {
           console.log(response)
           setPersons(persons.filter(person => person.id !== id))
+          showNotification(`Deleted ${persons.find(person => person.id === id)?.name}`, 'success')
         })
     }
   }
@@ -81,6 +106,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification ? notification.message : null} 
+      type={notification ? notification.type : null} />
       <Filter value={newFilter} onChange={handleNewFilter} />
       <h2>Add a new contact</h2>
       <Form
