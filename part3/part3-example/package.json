@@ -1,0 +1,20 @@
+{
+  "name": "part3-example",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "N3t0n",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
