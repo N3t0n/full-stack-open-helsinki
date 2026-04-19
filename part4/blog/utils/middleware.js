@@ -1,10 +1,13 @@
 const logger = require('./logger')
 
 const requestLogger = (request, response, next) => {
-  logger.info('Method:', request.method)
-  logger.info('Path:  ', request.path)
-  logger.info('Body:  ', request.body)
-  logger.info('---')
+  if (process.env.NODE_ENV !== 'test') {
+    logger.info('Method:', request.method)
+    logger.info('Path:  ', request.path)
+    logger.info('Body:  ', request.body)
+    logger.info('---')
+  }
+
   next()
 }
 
@@ -13,7 +16,10 @@ const unknownEndpoint = (request, response) => {
 }
 
 const errorHandler = (error, request, response, next) => {
-  logger.error(error.message)
+  if (process.env.NODE_ENV !== 'test') {
+    logger.error(error.message)
+  }
+
   next(error)
 }
 
