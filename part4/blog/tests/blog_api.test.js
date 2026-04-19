@@ -91,6 +91,29 @@ test('the first blog is about React patterns', async () => {
     assert.strictEqual(response.body[0].title, 'React patterns')
 })
 
+test.only('a valid blog was added', async () => {
+    const newBlog = {
+        title: "New Blog Added",
+        author: "Paco Pepe",
+        url: "https://example.com/new-blog",
+        likes: 0
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+    const titles = response.body.map(r => r.title)
+
+    assert.ok(titles.includes('New Blog Added'))
+
+    const totalBlogs = await Blog.countDocuments({})
+    assert.strictEqual(totalBlogs, initialBlogs.length + 1)
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
