@@ -74,14 +74,14 @@ beforeEach(async () => {
     await blogObject.save()
 })
 
-test.only('blogs are returned as json', async () => {
+test('blogs are returned as json', async () => {
     await api
         .get('/api/blogs')
         .expect(200)
         .expect('Content-Type', /application\/json/)
 })
 
-test.only('there are six blogs', async () => {
+test('there are six blogs', async () => {
     const response = await api.get('/api/blogs')
     assert.strictEqual(response.body.length, initialBlogs.length)
 })
@@ -91,7 +91,7 @@ test('the first blog is about React patterns', async () => {
     assert.strictEqual(response.body[0].title, 'React patterns')
 })
 
-test.only('a valid blog was added', async () => {
+test('a valid blog was added', async () => {
     const newBlog = {
         title: "New Blog Added",
         author: "Paco Pepe",
@@ -112,6 +112,11 @@ test.only('a valid blog was added', async () => {
 
     const totalBlogs = await Blog.countDocuments({})
     assert.strictEqual(totalBlogs, initialBlogs.length + 1)
+})
+
+test('id property is defined', async () => {
+    const response = await api.get('/api/blogs')
+    assert.ok(response.body[0].id)
 })
 
 after(async () => {
