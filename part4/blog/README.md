@@ -1,18 +1,18 @@
-Completed:
+# Part 4 - Testing Express Servers and User Administration
 
-4.1
-4.2
-4.3
-4.4
-4.5
-4.8
-4.9
-4.10
-4.13
-4.14
-4.15
-4.16
-4.17
-4.18
-4.19
-4.21
+In this part, I continued working on backend development by learning how to test Node.js and Express applications. I wrote unit and integration tests for REST APIs, improved the structure of the backend application, and worked with database test environments. I also implemented user management, password hashing, and token-based authentication using JSON Web Tokens.
+
+## Topics covered
+
+- Backend testing with Node.js
+- Unit and Integration testing
+- Database testing with MongoDB
+- Middleware organization
+- Models and relationships
+- Password hashing with `bcrypt`
+- User registration
+- Login systems
+- JSON Web Tokens (JWT)
+- Token authentication
+- Protected routes
+- Authorization basics
