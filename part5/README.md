@@ -1,7 +1,5 @@
 Completed exercises:
 5.1
+5.2
 
 ---
-
-voy por: Creando nuevas notas
-para el 5.2

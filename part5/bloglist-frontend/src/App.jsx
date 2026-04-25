@@ -10,7 +10,8 @@ const App = () => {
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-
+  const [successMessage, setSuccessMessage] = useState(null)
+  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
 
 
   useEffect(() => {
@@ -57,6 +58,16 @@ const App = () => {
     }
   }, [])
 
+  const handleAddBlog = async (event) => {
+    event.preventDefault()
+    const returnedBlog = await blogService.create(newBlog)
+    setBlogs(blogs.concat(returnedBlog))
+    setNewBlog({ title: '', author: '', url: '' })
+    setSuccessMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} was added`)
+    setTimeout(() => {
+      setSuccessMessage(null)
+    }, 5000)
+  }
   const loginForm = () => (
     <div>
       <h2>Log in to application</h2>
@@ -90,10 +101,19 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <Notification message={errorMessage} type="error" />
+      <Notification message={successMessage} type="success" />
 
-      <p>{user.username} logged-in</p>
+      <p>{user.name} logged-in</p>
       <button onClick={handleLogout}>logout</button>
-
+      <div>
+      <form onSubmit={handleAddBlog}>
+        <h2>Add new blog</h2>
+        <input type="text" placeholder="title" value={newBlog.title} onChange={({ target }) => setNewBlog({ ...newBlog, title: target.value })} />
+        <input type="text" placeholder="author" value={newBlog.author} onChange={({ target }) => setNewBlog({ ...newBlog, author: target.value })} />
+        <input type="text" placeholder="url" value={newBlog.url} onChange={({ target }) => setNewBlog({ ...newBlog, url: target.value })} />
+        <button type="submit">add blog</button>
+      </form>
+      </div>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
