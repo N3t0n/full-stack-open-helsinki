@@ -1,4 +1,4 @@
-import { useState, useEffect} from 'react'
+import { useState, useEffect, useRef} from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -14,8 +14,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
-  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
-
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -61,11 +60,10 @@ const App = () => {
     }
   }, [])
 
-  const handleAddBlog = async (event) => {
-    event.preventDefault()
-    const returnedBlog = await blogService.create(newBlog)
+  const handleAddBlog = async (blogObject) => {
+    blogFormRef.current.toggleVisibility()
+    const returnedBlog = await blogService.create(blogObject)
     setBlogs(blogs.concat(returnedBlog))
-    setNewBlog({ title: '', author: '', url: '' })
     setSuccessMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} was added`)
     setTimeout(() => {
       setSuccessMessage(null)
@@ -94,21 +92,10 @@ const App = () => {
 
       <p>{user.name} logged-in</p>
       <button onClick={handleLogout}>logout</button>
-      <Togglable buttonLabel='new blog'>
-        <BlogForm
-          onSubmit={handleAddBlog}
-          newBlog={newBlog}
-          handleTitleChange={({ target }) =>
-            setNewBlog({ ...newBlog, title: target.value })
-          }
-          handleAuthorChange={({ target }) =>
-            setNewBlog({ ...newBlog, author: target.value })
-          }
-          handleUrlChange={({ target }) =>
-            setNewBlog({ ...newBlog, url: target.value })
-          }
-        />
+      <Togglable buttonLabel='new blog' ref={blogFormRef}>
+        <BlogForm createBlog={handleAddBlog} />
       </Togglable>
+      
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
