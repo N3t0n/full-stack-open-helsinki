@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef} from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -10,7 +10,7 @@ import BlogForm from './components/BlogForm'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('') 
+  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
@@ -19,12 +19,12 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({
         username, password,
@@ -51,7 +51,7 @@ const App = () => {
     setUser(null)
   }
   useEffect(() => {
-    const loggedUserJSON = 
+    const loggedUserJSON =
       window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
@@ -102,7 +102,7 @@ const App = () => {
       <Togglable buttonLabel='new blog' ref={blogFormRef}>
         <BlogForm createBlog={handleAddBlog} />
       </Togglable>
-      
+
       {sortedBlogs.map(blog =>
         <Blog key={blog.id} blog={blog} addLike={addLike} removeBlog={removeBlog} user={user} />
       )}
@@ -122,10 +122,10 @@ const App = () => {
 
     setBlogs(blogs.map(b => b.id === blog.id ? returnedBlog : b))
   }
-  
+
   return (
     <div>
-    
+
       {user === null ? loginForm() : blogList()}
 
     </div>
