@@ -70,6 +70,13 @@ const App = () => {
     }, 5000)
   }
 
+  const removeBlog = async (blog) => {
+    if (window.confirm(`Do you want to remove blog "${blog.title}"?`)) {
+      await blogService.remove(blog.id)
+      setBlogs(blogs.filter(b => b.id !== blog.id))
+    }
+  }
+
   const loginForm = () => (
     <Togglable buttonLabel='login'>
       <LoginForm
@@ -97,7 +104,7 @@ const App = () => {
       </Togglable>
       
       {sortedBlogs.map(blog =>
-        <Blog key={blog.id} blog={blog} addLike={addLike} />
+        <Blog key={blog.id} blog={blog} addLike={addLike} removeBlog={removeBlog} user={user} />
       )}
     </div>
   )

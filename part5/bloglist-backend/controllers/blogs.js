@@ -30,7 +30,9 @@ blogsRouter.post('/', async (request, response) => {
   user.blogs = user.blogs.concat(result._id)
   await user.save()
   
-  response.status(201).json(result)
+  const populatedBlog = await result.populate('user', { username: 1, name: 1 })
+  response.status(201).json(populatedBlog)
+
 })
 
 
@@ -44,7 +46,7 @@ blogsRouter.delete('/:id', async (request, response) => {
   const user = await User.findById(decodedToken.id)
 
   if (blog.user.toString() === user._id.toString()) {
-    await Blog.findByIdAndRemove(request.params.id)
+    await Blog.findByIdAndDelete(request.params.id)
     response.status(204).end()
   } else {
     return response.status(401).json({ error: 'only the creator of the blog can delete it' })
