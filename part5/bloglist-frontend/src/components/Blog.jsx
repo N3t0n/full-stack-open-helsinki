@@ -20,10 +20,10 @@ const Blog = ({ user, blog, addLike, removeBlog }) => {
   return (
 
     <div style={blogStyle}>
-      <div>
+      <div className="blogSummary">
         {blog.title} {blog.author}
       </div>
-      <div style={{ display: visible ? '' : 'none' }}>
+      <div className='blogDetails' style={{ display: visible ? '' : 'none' }}>
         {blog.url} <br />
         {blog.likes} likes <button onClick={() => addLike(blog)}>like</button>
         <br />

@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
-test('renders content', () => {
+test('Test Exercise 5.13', () => {
   const blog = {
     title: 'Blog testing with Vitest',
     author: 'N3t0n',
@@ -13,13 +14,13 @@ test('renders content', () => {
     },
   }
 
-  const user = {
-    username: 'Manolitor',
-    name: 'Manolito Gafotas'
-  }
+  render(<Blog blog={blog} user={blog.user} />)
 
-  render(<Blog blog={blog} user={user} addLike={vi.fn()} removeBlog={vi.fn()}/>)
+  const summary = screen.getByText('Blog testing with Vitest N3t0n')
+  expect(summary).toBeVisible()
 
-  const element = screen.getByText('Blog testing with Vitest N3t0n')
-  expect(element).toBeDefined()
+  const details = document.querySelector('.blogDetails')
+  expect(details).not.toBeVisible()
+  expect(details).toHaveTextContent('https://example.com')
+  expect(details).toHaveTextContent('5 likes')
 })
