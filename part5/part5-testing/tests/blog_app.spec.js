@@ -49,20 +49,20 @@ describe('Blog app', () => {
 
     test('a new blog can be created', async ({ page }) => {
         await page.getByRole('button', { name: 'new blog' }).click()
-        await page.getByTestId('title').fill('Testing Playwright')
-        await page.getByTestId('author').fill('N3t0n')
-        await page.getByTestId('url').fill('https://fullstackopen.com/es/part5/pruebas_de_extremo_a_extremo_playwright')
+        await page.getByTestId('title').fill('And they shall know no fear.')
+        await page.getByTestId('author').fill('The Emperor')
+        await page.getByTestId('url').fill('imperiumofman.com')
         await page.getByRole('button', { name: 'add blog' }).click()
 
-        await expect(page.getByText('Testing Playwright N3t0n')).toBeVisible()
+        await expect(page.getByText('And they shall know no fear. The Emperor')).toBeVisible()
     })
 
     describe('and a blog exists', () => {
       beforeEach(async ({ page }) => {
         await page.getByRole('button', { name: 'new blog' }).click()
-        await page.getByTestId('title').fill('Testing Playwright')
-        await page.getByTestId('author').fill('N3t0n')
-        await page.getByTestId('url').fill('https://fullstackopen.com/es/part5/pruebas_de_extremo_a_extremo_playwright')
+        await page.getByTestId('title').fill('And they shall know no fear.')
+        await page.getByTestId('author').fill('The Emperor')
+        await page.getByTestId('url').fill('imperiumofman.com')
         await page.getByRole('button', { name: 'add blog' }).click()
       })
 
@@ -80,7 +80,7 @@ describe('Blog app', () => {
 
         await page.getByRole('button', { name: 'remove' }).click()
 
-        await expect(page.getByText('Testing Playwright N3t0n')).not.toBeVisible()
+        await expect(page.getByText('And they shall know no fear. The Emperor')).not.toBeVisible()
       })
 
       test('only the creator can see the remove button', async ({ page, request }) => {
@@ -99,8 +99,52 @@ describe('Blog app', () => {
         await page.getByTestId('password').fill('PapePass')
         await page.getByRole('button', { name: 'login' }).click()
 
-        await expect(page.getByText('Testing Playwright N3t0n')).toBeVisible()
+        await expect(page.getByText('And they shall know no fear. The Emperor')).toBeVisible()
         await expect(page.getByRole('button', { name: 'remove' })).not.toBeVisible()
+      })
+    })
+
+    describe('and several blogs exist', () => {
+      beforeEach(async ({ page }) => {
+        await page.getByRole('button', { name: 'new blog' }).click()
+        await page.getByTestId('title').fill('And they shall know no fear.')
+        await page.getByTestId('author').fill('The Emperor')
+        await page.getByTestId('url').fill('imperiumofman.com')
+        await page.getByRole('button', { name: 'add blog' }).click()
+        await page.getByText('And they shall know no fear. The Emperor').waitFor()
+
+        await page.getByRole('button', { name: 'new blog' }).click()
+        await page.getByTestId('title').fill('Iron Within, Iron Without!')
+        await page.getByTestId('author').fill('Perturabo')
+        await page.getByTestId('url').fill('ironwarriors.com')
+        await page.getByRole('button', { name: 'add blog' }).click()
+        await page.getByText('Iron Within, Iron Without! Perturabo').waitFor()
+
+        await page.getByRole('button', { name: 'new blog' }).click()
+        await page.getByTestId('title').fill('Ave Dominus Nox!')
+        await page.getByTestId('author').fill('Sevatar')
+        await page.getByTestId('url').fill('nightlords.com')
+        await page.getByRole('button', { name: 'add blog' }).click()
+        await page.getByText('Ave Dominus Nox! Sevatar').waitFor()
+
+        const blogWithOneLike = page.getByText('Iron Within, Iron Without! Perturabo').locator('..')
+        await blogWithOneLike.getByRole('button', { name: 'view' }).click()
+        await blogWithOneLike.getByRole('button', { name: 'like' }).click()
+
+        const blogWithTwoLikes = page.getByText('Ave Dominus Nox! Sevatar').locator('..')
+        await blogWithTwoLikes.getByRole('button', { name: 'view' }).click()
+        await blogWithTwoLikes.getByRole('button', { name: 'like' }).click()
+        await expect(blogWithTwoLikes.getByText('1 likes')).toBeVisible()
+        await blogWithTwoLikes.getByRole('button', { name: 'like' }).click()
+        await expect(blogWithTwoLikes.getByText('2 likes')).toBeVisible()
+      })
+
+      test('blogs are ordered by likes', async ({ page }) => {
+        const blogs = await page.locator('.blogSummary').allTextContents()
+
+        expect(blogs[0]).toContain('Ave Dominus Nox!')
+        expect(blogs[1]).toContain('Iron Within, Iron Without!')
+        expect(blogs[2]).toContain('And they shall know no fear.')
       })
     })
   })
