@@ -39,4 +39,22 @@ describe('Blog app', () => {
     await expect(page.getByText('Wrong credentials')).toBeVisible()
   })
 
+  describe('When logged in', () => {
+    beforeEach(async ({ page }) => {
+        await page.getByRole('button', { name: 'login' }).click()
+        await page.getByTestId('username').fill('N3t0n')
+        await page.getByTestId('password').fill('N3t0nPass')
+        await page.getByRole('button', { name: 'login' }).click()
+    })
+
+    test('a new blog can be created', async ({ page }) => {
+        await page.getByRole('button', { name: 'new blog' }).click()
+        await page.getByTestId('title').fill('Testing Playwright')
+        await page.getByTestId('author').fill('N3t0n')
+        await page.getByTestId('url').fill('https://fullstackopen.com/es/part5/pruebas_de_extremo_a_extremo_playwright')
+        await page.getByRole('button', { name: 'add blog' }).click()
+
+        await expect(page.getByText('Testing Playwright N3t0n')).toBeVisible()
+    })
+  })
 })
