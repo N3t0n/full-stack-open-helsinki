@@ -17,3 +17,29 @@ In this part, I returned to frontend development by connecting the React applica
 - End-to-end testing
 - Playwright
 - Debugging frontend tests
+
+## Project structure
+
+- `bloglist-backend`: Express/MongoDB API used by the Bloglist app.
+- `bloglist-frontend`: React/Vite frontend.
+- `part5-testing`: Playwright end-to-end test project.
+
+## Run the app
+
+Use two terminals.
+
+Terminal 1, backend:
+npm run start:test
+
+Terminal 2, frontend:
+npm run dev
+
+The frontend runs at `http://localhost:5173` and proxies `/api` requests to the backend at `http://localhost:3003`.
+
+## Tests
+
+npm test
+
+npm test -- --project chromium
+
+npm run test:ui
