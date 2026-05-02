@@ -94,8 +94,6 @@ const App = () => {
   const blogList = () => (
     <div>
       <h2>blogs</h2>
-      <Notification message={errorMessage} type="error" />
-      <Notification message={successMessage} type="success" />
 
       <p>{user.name} logged-in</p>
       <button onClick={handleLogout}>logout</button>
@@ -125,6 +123,8 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={errorMessage} type="error" />
+      <Notification message={successMessage} type="success" />
 
       {user === null ? loginForm() : blogList()}
 

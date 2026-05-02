@@ -21,4 +21,22 @@ describe('Blog app', () => {
   await expect(page.getByRole('heading', { name: 'Log in to application' })).toBeVisible()
   })
 
+  test('User can log in with correct credentials', async ({ page }) => {
+    await page.getByRole('button', { name: 'login' }).click()
+    await page.getByTestId('username').fill('N3t0n')
+    await page.getByTestId('password').fill('N3t0nPass')
+    await page.getByRole('button', { name: 'login' }).click()
+
+    await expect(page.getByText('Neton logged-in')).toBeVisible()
+  })
+
+  test('Login fails with wrong credentials', async ({ page }) => {
+    await page.getByRole('button', { name: 'login' }).click()
+    await page.getByTestId('username').fill('N3t0n')
+    await page.getByTestId('password').fill('WrongPass')
+    await page.getByRole('button', { name: 'login' }).click()
+
+    await expect(page.getByText('Wrong credentials')).toBeVisible()
+  })
+
 })
