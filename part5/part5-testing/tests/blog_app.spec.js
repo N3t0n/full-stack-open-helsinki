@@ -82,6 +82,26 @@ describe('Blog app', () => {
 
         await expect(page.getByText('Testing Playwright N3t0n')).not.toBeVisible()
       })
+
+      test('only the creator can see the remove button', async ({ page, request }) => {
+        await page.getByRole('button', { name: 'logout' }).click()
+
+        await request.post('/api/users', {
+          data: {
+            name: 'Paco Pepe',
+            username: 'Pape',
+            password: 'PapePass',
+          },
+        })
+
+        await page.getByRole('button', { name: 'login' }).click()
+        await page.getByTestId('username').fill('Pape')
+        await page.getByTestId('password').fill('PapePass')
+        await page.getByRole('button', { name: 'login' }).click()
+
+        await expect(page.getByText('Testing Playwright N3t0n')).toBeVisible()
+        await expect(page.getByRole('button', { name: 'remove' })).not.toBeVisible()
+      })
     })
   })
 })
