@@ -56,5 +56,22 @@ describe('Blog app', () => {
 
         await expect(page.getByText('Testing Playwright N3t0n')).toBeVisible()
     })
+
+    describe('and a blog exists', () => {
+      beforeEach(async ({ page }) => {
+        await page.getByRole('button', { name: 'new blog' }).click()
+        await page.getByTestId('title').fill('Testing Playwright')
+        await page.getByTestId('author').fill('N3t0n')
+        await page.getByTestId('url').fill('https://fullstackopen.com/es/part5/pruebas_de_extremo_a_extremo_playwright')
+        await page.getByRole('button', { name: 'add blog' }).click()
+      })
+
+      test('a blog can be liked', async ({ page }) => {
+        await page.getByRole('button', { name: 'view' }).click()
+        await page.getByRole('button', { name: 'like' }).click()
+
+        await expect(page.getByText('1 likes')).toBeVisible()
+      })
+    })
   })
 })
