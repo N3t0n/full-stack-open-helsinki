@@ -24,21 +24,31 @@ const reducer = (state = initialState, action) => {
   console.log('action', action)
 
   switch (action.type) {
-    case 'VOTE':
+    case 'VOTE': {
       const id = action.payload.id
+
       return state.map(anecdote =>
         anecdote.id !== id
           ? anecdote
           : {
               ...anecdote,
-          votes: anecdote.votes + 1
-        }
+              votes: anecdote.votes + 1
+            }
 
-    )
+      )
+    }
+    case 'NEW_ANECDOTE': {
+      const newAnecdote = {
+        content: action.payload.content,
+        id: getId(),
+        votes: 0
+      }
+
+      return state.concat(newAnecdote)
+    }
     default:
       return state
   }
-   
 }
 
 export default reducer
