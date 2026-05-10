@@ -7,3 +7,23 @@ export const getAnecdotes = async () => {
   }
   return response.json()
 }
+
+export const createAnecdote = async (content) => {
+  const requirements = content.length >= 5
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ content, votes: 0 })
+  }
+  if (!requirements) {
+    throw new Error('Anecdote must be at least 5 characters long')
+  }
+  const response = await fetch(baseUrl, options)
+  if (!response.ok) {
+    throw new Error('Failed to create anecdote')
+  }
+  return await response.json()
+}
