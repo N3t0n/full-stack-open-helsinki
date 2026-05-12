@@ -1,12 +1,13 @@
-import { use } from 'react'
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 import { useQuery, useMutation, useQueryClient} from '@tanstack/react-query'
 import { getAnecdotes, createAnecdote, voteAnecdote} from './request'
-
+import { useNotificationDispatch } from './NotificationContext'
 const App = () => {
   const queryClient = useQueryClient()
   
+  const notificationDispatch = useNotificationDispatch()
+
   const handleVote = (anecdote) => {
     voteAnecdoteMutation.mutate(anecdote)
   }
@@ -15,6 +16,16 @@ const App = () => {
     mutationFn: createAnecdote,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
+      notificationDispatch({ type: 'SET', payload: 'Anecdote added successfully!' })
+      setTimeout(() => {
+        notificationDispatch({ type: 'CLEAR' })
+      }, 5000)
+    },
+    onError: (error) => {
+      notificationDispatch({ type: 'SET', payload: `Error: ${error.message}` })
+      setTimeout(() => {
+        notificationDispatch({ type: 'CLEAR' })
+      }, 5000)
     }
   })
 
@@ -22,7 +33,11 @@ const App = () => {
     mutationFn: voteAnecdote,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
-    }
+      notificationDispatch({ type: 'SET', payload: 'Anecdote voted successfully!' })
+      setTimeout(() => {
+        notificationDispatch({ type: 'CLEAR' })
+      }, 5000)
+    },
   })
 
   const addAnecdote = async (event) => {
