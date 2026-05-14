@@ -6,6 +6,9 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Home from './components/Home'
+import BlogList from './components/BlogList'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -77,35 +80,20 @@ const App = () => {
     }
   }
 
-  const loginForm = () => (
-    <Togglable buttonLabel='login'>
-      <LoginForm
-        username={username}
-        password={password}
-        handleUsernameChange={({ target }) => setUsername(target.value)}
-        handlePasswordChange={({ target }) => setPassword(target.value)}
-        handleSubmit={handleLogin}
-      />
-    </Togglable>
+  const loginView = () => (
+    <LoginForm
+      password={password}
+      username={username}
+      handlePasswordChange={({ target }) => setPassword(target.value)}
+      handleUsernameChange={({ target }) => setUsername(target.value)}
+      handleSubmit={handleLogin}
+    />
+   
   )
 
   const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
 
-  const blogList = () => (
-    <div>
-      <h2>blogs</h2>
-
-      <p>{user.name} logged-in</p>
-      <button onClick={handleLogout}>logout</button>
-      <Togglable buttonLabel='new blog' ref={blogFormRef}>
-        <BlogForm createBlog={handleAddBlog} />
-      </Togglable>
-
-      {sortedBlogs.map(blog =>
-        <Blog key={blog.id} blog={blog} addLike={addLike} removeBlog={removeBlog} user={user} />
-      )}
-    </div>
-  )
+  
 
   const addLike = async (blog) => {
     const updatedBlog = {
@@ -121,14 +109,30 @@ const App = () => {
     setBlogs(blogs.map(b => b.id === blog.id ? returnedBlog : b))
   }
 
+  const padding = {
+    padding: 5
+  }
   return (
-    <div>
-      <Notification message={errorMessage} type="error" />
-      <Notification message={successMessage} type="success" />
+    <Router>
+      <div>
+        <Link style={padding} to="/">home</Link>
+        <Link style={padding} to="/blogs">blogs</Link>
 
-      {user === null ? loginForm() : blogList()}
+        <Notification message={errorMessage} type="error" />
+        <Notification message={successMessage} type="success" />
+      </div>
 
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/blogs" element={
+          <BlogList blogs={sortedBlogs} user={user} onLike={addLike} onRemove={removeBlog} />
+        } />
+        <Route path="/login" element={loginView()} />
+
+
+      </Routes>
+
+    </Router>
   )
 }
 
