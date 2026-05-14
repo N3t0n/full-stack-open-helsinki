@@ -1,4 +1,4 @@
-import Blog from './Blog'
+import { Link } from 'react-router-dom'
 
 const BlogList = ({ blogs, user, onLike, onRemove }) => {
   return (
@@ -6,14 +6,13 @@ const BlogList = ({ blogs, user, onLike, onRemove }) => {
       <h2>blogs</h2>
 
       {blogs.map(blog => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          addLike={onLike}
-          removeBlog={onRemove}
-          user={user}
-        />
+        <div key={blog.id}>
+          <Link to={`/blogs/${blog.id}`}>
+            {blog.title} — {blog.author} — {blog.likes} likes
+          </Link>
+        </div>
       ))}
+
     </div>
   )
 }

@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Blog from './components/Blog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Home from './components/Home'
 import BlogList from './components/BlogList'
-import { Routes, Route, Link, useNavigate } from 'react-router-dom'
+import { Routes, Route, Link, useNavigate, useMatch } from 'react-router-dom'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -17,6 +18,11 @@ const App = () => {
   const [successMessage, setSuccessMessage] = useState(null)
   const blogFormRef = useRef()
   const navigate = useNavigate()
+
+  const match = useMatch('/blogs/:id')
+  const blog = match
+    ? blogs.find(blog => blog.id === match.params.id)
+    : null
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -145,6 +151,14 @@ const App = () => {
           }
         />
         <Route path="/login" element={loginView()} />
+        <Route path="/blogs/:id" element={
+          <Blog
+            blog={blog}
+            user={user}
+            addLike={addLike}
+            removeBlog={removeBlog}
+          />
+        } />
       </Routes>
     </>
   )
