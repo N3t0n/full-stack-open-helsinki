@@ -1,14 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
-import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
-import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Home from './components/Home'
 import BlogList from './components/BlogList'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, useNavigate } from 'react-router-dom'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -18,6 +16,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
   const blogFormRef = useRef()
+  const navigate = useNavigate()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -41,6 +40,7 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      navigate('/blogs')
     } catch {
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
@@ -52,6 +52,7 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
+    navigate('/blogs')
   }
   useEffect(() => {
     const loggedUserJSON =
@@ -113,26 +114,39 @@ const App = () => {
     padding: 5
   }
   return (
-    <Router>
+    <>
       <div>
-        <Link style={padding} to="/">home</Link>
-        <Link style={padding} to="/blogs">blogs</Link>
+        <Link style={padding} to="/">Home</Link>
+        <Link style={padding} to="/blogs">Blogs</Link>
 
+        {user === null ? (
+          <Link style={padding} to="/login">Login</Link>
+        ) : (
+          <>
+            <span style={padding}>{user.name}</span>
+            <button onClick={handleLogout}>Logout</button>
+          </>
+        )}
         <Notification message={errorMessage} type="error" />
         <Notification message={successMessage} type="success" />
       </div>
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/blogs" element={
-          <BlogList blogs={sortedBlogs} user={user} onLike={addLike} onRemove={removeBlog} />
-        } />
+        <Route
+          path="/blogs"
+          element={
+            <BlogList
+              blogs={sortedBlogs}
+              user={user}
+              onLike={addLike}
+              onRemove={removeBlog}
+            />
+          }
+        />
         <Route path="/login" element={loginView()} />
-
-
       </Routes>
-
-    </Router>
+    </>
   )
 }
 

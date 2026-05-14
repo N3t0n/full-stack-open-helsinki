@@ -8,6 +8,7 @@ const Blog = ({ user, blog, addLike, removeBlog }) => {
     setVisible(!visible)
   }
 
+  const isOwner = user && blog.username === user.username
 
   const blogStyle = {
     paddingTop: 10,
@@ -32,9 +33,9 @@ const Blog = ({ user, blog, addLike, removeBlog }) => {
       <button onClick={handleVisibility}>
         {visible ? 'hide' : 'view'}
       </button>
-      {user.username === blog.user.username && (
-        <button onClick={() => removeBlog(blog)}>remove</button>
-      )}
+        {isOwner && (
+          <button onClick={() => removeBlog(blog)}>remove</button>
+        )}
     </div>
 
   )
