@@ -7,7 +7,7 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Home from './components/Home'
 import BlogList from './components/BlogList'
-import { Routes, Route, Link, useNavigate, useMatch } from 'react-router-dom'
+import { Routes, Route, Link, useNavigate, useMatch, Navigate } from 'react-router-dom'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -126,9 +126,11 @@ const App = () => {
         <Link style={padding} to="/blogs">Blogs</Link>
 
         {user === null ? (
+          
           <Link style={padding} to="/login">Login</Link>
         ) : (
           <>
+            <Link style={padding} to="/create">Create</Link>
             <span style={padding}>{user.name}</span>
             <button onClick={handleLogout}>Logout</button>
           </>
@@ -148,6 +150,14 @@ const App = () => {
               onLike={addLike}
               onRemove={removeBlog}
             />
+          }
+        />
+        <Route
+          path="/create"
+          element={
+            user
+              ? <BlogForm createBlog={handleAddBlog} />
+              : <Navigate to="/login" />
           }
         />
         <Route path="/login" element={loginView()} />
