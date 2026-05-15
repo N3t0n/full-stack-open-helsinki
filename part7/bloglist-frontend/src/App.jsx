@@ -16,7 +16,6 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
-  const blogFormRef = useRef()
   const navigate = useNavigate()
 
   const match = useMatch('/blogs/:id')
@@ -71,19 +70,20 @@ const App = () => {
   }, [])
 
   const handleAddBlog = async (blogObject) => {
-    blogFormRef.current.toggleVisibility()
     const returnedBlog = await blogService.create(blogObject)
     setBlogs(blogs.concat(returnedBlog))
     setSuccessMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} was added`)
     setTimeout(() => {
       setSuccessMessage(null)
     }, 5000)
+    navigate('/blogs')
   }
 
   const removeBlog = async (blog) => {
     if (window.confirm(`Do you want to remove blog "${blog.title}"?`)) {
       await blogService.remove(blog.id)
       setBlogs(blogs.filter(b => b.id !== blog.id))
+      navigate('/blogs')
     }
   }
 
