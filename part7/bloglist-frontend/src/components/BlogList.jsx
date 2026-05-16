@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom'
+import { Paper, Typography } from '@mui/material'
+
 
 const BlogList = ({ blogs, user, onLike, onRemove }) => {
   return (
@@ -6,15 +8,14 @@ const BlogList = ({ blogs, user, onLike, onRemove }) => {
       <h2>Blogs</h2>
 
       {blogs.map(blog => (
-        <div key={blog.id}>
-          <ul>
-            <li>
-              <Link to={`/blogs/${blog.id}`}>
-                {blog.title} — {blog.author} — {blog.likes} likes
-              </Link>
-            </li>
-          </ul>
-        </div>
+        <Paper key={blog.id} sx={{ p: 2, mb: 2 }}>
+          <Link to={`/blogs/${blog.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Typography variant="h6" gutterBottom>{blog.title}</Typography>
+          </Link>
+          <Typography variant="body2" color="text.secondary">
+            by {blog.author} • {blog.likes} likes
+          </Typography>
+        </Paper>
       ))}
 
     </div>
