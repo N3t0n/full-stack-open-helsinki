@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { TextField, Button, Box } from '@mui/material'
 
 const BlogForm = ({ createBlog }) => {
   const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
@@ -11,39 +12,32 @@ const BlogForm = ({ createBlog }) => {
     <div>
       <h2>Add a new blog</h2>
 
-      <form onSubmit={addBlog}>
-        <div>
-          title
-          <input
-            data-testid="title"
-            placeholder='title'
-            value={newBlog.title}
-            onChange={({ target }) => setNewBlog({ ...newBlog, title: target.value })}
-          />
-        </div>
-
-        <div>
-          author
-          <input
-            data-testid="author"
-            placeholder='author'
-            value={newBlog.author}
-            onChange={({ target }) => setNewBlog({ ...newBlog, author: target.value })}
-          />
-        </div>
-
-        <div>
-          url
-          <input
-            data-testid="url"
-            placeholder='url'
-            value={newBlog.url}
-            onChange={({ target }) => setNewBlog({ ...newBlog, url: target.value })}
-          />
-        </div>
-
-        <button type="submit">add blog</button>
-      </form>
+      <Box component="form" onSubmit={addBlog} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+        <TextField
+          label="Title"
+          placeholder='title'
+          value={newBlog.title}
+          onChange={({ target }) => setNewBlog({ ...newBlog, title: target.value })}
+          margin="normal"
+        />
+        <TextField
+          label="Author"
+          placeholder='author'
+          value={newBlog.author}
+          onChange={({ target }) => setNewBlog({ ...newBlog, author: target.value })}
+          margin="normal"
+        />
+        <TextField
+          label="URL"
+          placeholder='url'
+          value={newBlog.url}
+          onChange={({ target }) => setNewBlog({ ...newBlog, url: target.value })}
+          margin="normal"
+        />
+        <Button type="submit" variant="contained" sx={{ mt: 2 }}>
+          add blog
+        </Button>
+      </Box>
     </div>
   )
 }

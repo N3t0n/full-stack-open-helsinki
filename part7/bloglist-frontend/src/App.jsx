@@ -8,6 +8,7 @@ import BlogForm from './components/BlogForm'
 import Home from './components/Home'
 import BlogList from './components/BlogList'
 import { Routes, Route, Link, useNavigate, useMatch, Navigate } from 'react-router-dom'
+import { Container, AppBar, Toolbar, Button, Box } from '@mui/material'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -116,28 +117,46 @@ const App = () => {
     setBlogs(blogs.map(b => b.id === blog.id ? returnedBlog : b))
   }
 
-  const padding = {
-    padding: 5
-  }
   return (
-    <>
-      <div>
-        <Link style={padding} to="/">Home</Link>
-        <Link style={padding} to="/blogs">Blogs</Link>
+    <Container>
+      <AppBar position="static">
+        <Toolbar>
+          <Button color="inherit" component={Link} to="/">
+            Home
+          </Button>
 
-        {user === null ? (
-          
-          <Link style={padding} to="/login">Login</Link>
-        ) : (
-          <>
-            <Link style={padding} to="/create">Create</Link>
-            <span style={padding}>{user.name}</span>
-            <button onClick={handleLogout}>Logout</button>
-          </>
-        )}
-        <Notification message={errorMessage} type="error" />
-        <Notification message={successMessage} type="success" />
-      </div>
+          <Button color="inherit" component={Link} to="/blogs">
+            Blogs
+          </Button>
+
+          {user !== null && (
+            <Button color="inherit" component={Link} to="/create">
+              Create
+            </Button>
+          )}
+
+          <Box sx={{ flexGrow: 1 }} />
+
+          {user === null ? (
+            <Button color="inherit" component={Link} to="/login">
+              Login
+            </Button>
+          ) : (
+            <>
+              <span style={{ marginLeft: 10, marginRight: 10 }}>
+                {user.username}
+              </span>
+
+              <Button color="inherit" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
+          )}
+        </Toolbar>
+      </AppBar>
+
+      <Notification message={errorMessage} type="error" />
+      <Notification message={successMessage} type="success" />
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -170,7 +189,7 @@ const App = () => {
           />
         } />
       </Routes>
-    </>
+    </Container>
   )
 }
 
