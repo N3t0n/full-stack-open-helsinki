@@ -1,3 +1,5 @@
+import { Paper, Typography, Button, Box } from '@mui/material'
+
 const Blog = ({ user, blog, addLike, removeBlog }) => {
   
   if (!blog) {
@@ -9,23 +11,39 @@ const Blog = ({ user, blog, addLike, removeBlog }) => {
 
   return (
 
-    <div >
-      <div className="blogSummary">
-        <h1>{blog.author}: {blog.title}</h1>
-      </div>
-      <div className='blogDetails'>
-        {blog.url} <br />
-        {blog.likes} likes
+    <Paper sx={{ p: 3 }}>
+      <Typography variant="h4" gutterBottom>
+        {blog.title}
+      </Typography>
+
+      <Typography variant="body1" color="text.secondary" gutterBottom>
+        by {blog.author}
+      </Typography>
+
+      <Typography gutterBottom>
+        {blog.url}
+      </Typography>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+        <Typography>
+          {blog.likes} likes
+        </Typography>
+
         {user && (
-          <button onClick={() => addLike(blog)}>like</button>
+          <Button onClick={() => addLike(blog)}>like</Button>
         )}
-        <br />
-        added by: {blog.user.username}
-      </div>
-        {isOwner && (
-          <button onClick={() => removeBlog(blog)}>remove</button>
-        )}
-    </div>
+      </Box>
+
+      <Typography variant="body2" color="text.secondary" gutterBottom>
+        added by {blog.user.username}
+      </Typography>
+
+      {isOwner && (
+        <Button variant="outlined" color="error" onClick={() => removeBlog(blog)}>
+          remove
+        </Button>
+      )}
+    </Paper>
 
   )
 }

@@ -8,7 +8,17 @@ const BlogList = ({ blogs, user, onLike, onRemove }) => {
       <h2>Blogs</h2>
 
       {blogs.map(blog => (
-        <Paper key={blog.id} sx={{ p: 2, mb: 2 }}>
+        <Paper
+          key={blog.id}
+          sx={{
+            p: 2,
+            mb: 2,
+            transition: '0.2s ease',
+            '&:hover': {
+              boxShadow: 3,
+            },
+          }}
+        >
           <Link to={`/blogs/${blog.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <Typography variant="h6" gutterBottom>{blog.title}</Typography>
           </Link>
