@@ -8,7 +8,7 @@ import BlogForm from './components/BlogForm'
 import Home from './components/Home'
 import BlogList from './components/BlogList'
 import { Routes, Route, Link, useNavigate, useMatch, Navigate } from 'react-router-dom'
-import { Container, AppBar, Toolbar, Button, Box } from '@mui/material'
+import { Container, AppBar, Toolbar, Button, Box, Typography } from '@mui/material'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -138,16 +138,16 @@ const App = () => {
           <Box sx={{ flexGrow: 1 }} />
 
           {user === null ? (
-            <Button color="inherit" component={Link} to="/login">
+            <Button color="success" variant="contained" size="small" component={Link} to="/login">
               Login
             </Button>
           ) : (
             <>
-              <span style={{ marginLeft: 10, marginRight: 10 }}>
-                {user.username}
-              </span>
+              <Typography sx={{ mx: 1 }}>
+                Hi, {user.username}
+              </Typography>
 
-              <Button color="inherit" onClick={handleLogout}>
+              <Button color="warning" variant="contained" size="small" onClick={handleLogout}>
                 Logout
               </Button>
             </>
