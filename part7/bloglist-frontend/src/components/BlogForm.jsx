@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TextField, Button, Box } from '@mui/material'
+import { TextField, Button, Box, Typography } from '@mui/material'
 
 const BlogForm = ({ createBlog }) => {
   const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
@@ -10,7 +10,9 @@ const BlogForm = ({ createBlog }) => {
   }
   return (
     <div>
-      <h2>Add a new blog</h2>
+      <Typography variant="h4" component="h2" gutterBottom>
+        Add a new blog
+      </Typography>
 
       <Box component="form" onSubmit={addBlog} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
         <TextField

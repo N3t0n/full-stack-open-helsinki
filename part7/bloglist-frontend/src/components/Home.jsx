@@ -2,7 +2,7 @@ import { Box, Typography, Link } from '@mui/material'
 
 const Home = () => {
   return (
-    <Box sx={{ py: 4 }}>
+    <Box sx={{ pb: 4 }}>
       <Typography variant="h3" gutterBottom>
         BlogList
       </Typography>

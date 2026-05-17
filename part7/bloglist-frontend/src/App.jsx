@@ -7,6 +7,7 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Home from './components/Home'
 import BlogList from './components/BlogList'
+import Footer from './components/Footer'
 import { Routes, Route, Link, useNavigate, useMatch, Navigate } from 'react-router-dom'
 import { Container, AppBar, Toolbar, Button, Box, Typography } from '@mui/material'
 
@@ -118,78 +119,86 @@ const App = () => {
   }
 
   return (
-    <Container>
-      <AppBar position="static">
-        <Toolbar>
-          <Button color="inherit" component={Link} to="/">
-            Home
-          </Button>
-
-          <Button color="inherit" component={Link} to="/blogs">
-            Blogs
-          </Button>
-
-          {user !== null && (
-            <Button color="inherit" component={Link} to="/create">
-              Create
+    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Container>
+        <AppBar position="static">
+          <Toolbar>
+            <Button color="inherit" component={Link} to="/">
+              Home
             </Button>
-          )}
 
-          <Box sx={{ flexGrow: 1 }} />
-
-          {user === null ? (
-            <Button color="success" variant="contained" size="small" component={Link} to="/login">
-              Login
+            <Button color="inherit" component={Link} to="/blogs">
+              Blogs
             </Button>
-          ) : (
-            <>
-              <Typography sx={{ mx: 1 }}>
-                Hi, {user.username}
-              </Typography>
 
-              <Button color="warning" variant="contained" size="small" onClick={handleLogout}>
-                Logout
+            {user !== null && (
+              <Button color="inherit" component={Link} to="/create">
+                Create
               </Button>
-            </>
-          )}
-        </Toolbar>
-      </AppBar>
+            )}
 
-      <Notification message={errorMessage} type="error" />
-      <Notification message={successMessage} type="success" />
+            <Box sx={{ flexGrow: 1 }} />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/blogs"
-          element={
-            <BlogList
-              blogs={sortedBlogs}
-              user={user}
-              onLike={addLike}
-              onRemove={removeBlog}
-            />
-          }
-        />
-        <Route
-          path="/create"
-          element={
-            user
-              ? <BlogForm createBlog={handleAddBlog} />
-              : <Navigate to="/login" />
-          }
-        />
-        <Route path="/login" element={loginView()} />
-        <Route path="/blogs/:id" element={
-          <Blog
-            blog={blog}
-            user={user}
-            addLike={addLike}
-            removeBlog={removeBlog}
+            {user === null ? (
+              <Button color="success" variant="contained" size="small" component={Link} to="/login">
+                Login
+              </Button>
+            ) : (
+              <>
+                <Typography sx={{ mx: 1 }}>
+                  Hi, {user.username}
+                </Typography>
+
+                <Button color="warning" variant="contained" size="small" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </>
+            )}
+          </Toolbar>
+        </AppBar>
+      </Container>
+
+      <Container sx={{ mt: 3, flexGrow: 1 }}>
+        <Notification message={errorMessage} type="error" />
+        <Notification message={successMessage} type="success" />
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/blogs"
+            element={
+              <BlogList
+                blogs={sortedBlogs}
+                user={user}
+                onLike={addLike}
+                onRemove={removeBlog}
+              />
+            }
           />
-        } />
-      </Routes>
-    </Container>
+          <Route
+            path="/create"
+            element={
+              user
+                ? <BlogForm createBlog={handleAddBlog} />
+                : <Navigate to="/login" />
+            }
+          />
+          <Route path="/login" element={loginView()} />
+          <Route path="/blogs/:id" element={
+            <Blog
+              blog={blog}
+              user={user}
+              addLike={addLike}
+              removeBlog={removeBlog}
+            />
+          } />
+        </Routes>
+      </Container>
+
+      <Container>
+        <Footer />
+      </Container>
+    </Box>
   )
 }
 

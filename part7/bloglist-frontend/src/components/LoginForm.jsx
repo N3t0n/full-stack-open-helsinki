@@ -1,9 +1,11 @@
-import { TextField, Button, Box } from '@mui/material'
+import { TextField, Button, Box, Typography } from '@mui/material'
 
 const LoginForm = ({ username, password, handleSubmit, handleUsernameChange, handlePasswordChange }) => {
   return (
     <div>
-      <h2>Log in to application</h2>
+      <Typography variant="h4" component="h2" gutterBottom>
+        Log in to application
+      </Typography>
 
       <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
         <TextField

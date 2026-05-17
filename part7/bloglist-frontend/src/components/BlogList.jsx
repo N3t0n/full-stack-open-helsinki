@@ -5,7 +5,9 @@ import { Paper, Typography } from '@mui/material'
 const BlogList = ({ blogs, user, onLike, onRemove }) => {
   return (
     <div>
-      <h2>Blogs</h2>
+      <Typography variant="h4" component="h2" gutterBottom>
+        Blogs
+      </Typography>
 
       {blogs.map(blog => (
         <Paper
