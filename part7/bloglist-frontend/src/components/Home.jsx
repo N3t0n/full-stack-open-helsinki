@@ -1,26 +1,45 @@
+import { Box, Typography, Link } from '@mui/material'
+
 const Home = () => {
   return (
-    <div>
-        <h1>BlogList App</h1>
+    <Box sx={{ py: 4 }}>
+      <Typography variant="h3" gutterBottom>
+        BlogList
+      </Typography>
 
-        <p>
-            BlogList is a fullstack application developed as part of the Full Stack
-            Open course by the University of Helsinki.
-        </p>
+      <Typography variant="body1" paragraph>
+        BlogList is a fullstack application built to put into practice the concepts
+        covered throughout the{' '}
+        <Link href="https://fullstackopen.com" target="_blank" rel="noopener noreferrer">
+          Full Stack Open
+        </Link>{' '}
+        course. It brings together authentication, routing, protected actions,
+        blog creation, detail views, and interaction with posts in a single project.
+      </Typography>
 
-        <p>
-            The application allows users to log in, create blogs, like posts, view
-            blog details, browse registered users, and delete only the posts they
-            have created themselves.
-        </p>
+      <Typography variant="body1" paragraph>
+        The application currently allows users to sign in, browse blogs, open
+        individual entries, like posts, create new blogs, and remove the ones
+        they own.
+      </Typography>
 
-        <p>
-            The project combines React, React Router, Node.js, Express, MongoDB, and
-            JWT authentication. Its main goal is to practice the complete workflow of
-            a modern web application: frontend, backend, database, authentication,
-            authorization, testing, and communication through a REST API.
-        </p>
-    </div>
+      <Typography variant="body1" paragraph>
+        The project continues to evolve beyond the original exercises while staying
+        focused on applying the ideas learned throughout the course in a more
+        coherent and polished application. Built with{' '}
+        <strong>React, React Router, Node.js, Express, MongoDB, and JWT authentication</strong>.
+      </Typography>
+
+      <Link
+        href="https://github.com/N3t0n/full-stack-open-helsinki"
+        target="_blank"
+        rel="noopener noreferrer"
+        underline="hover"
+        sx={{ mt: 2, display: 'inline-block' }}
+      >
+        View source on GitHub
+      </Link>
+    </Box>
   )
 }
 
