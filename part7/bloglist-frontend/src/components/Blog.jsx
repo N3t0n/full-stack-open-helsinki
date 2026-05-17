@@ -1,4 +1,4 @@
-import { Paper, Typography, Button, Box } from '@mui/material'
+import { Paper, Typography, Button, Box, Link } from '@mui/material'
 
 const Blog = ({ user, blog, addLike, removeBlog }) => {
   
@@ -21,7 +21,14 @@ const Blog = ({ user, blog, addLike, removeBlog }) => {
       </Typography>
 
       <Typography gutterBottom>
-        {blog.url}
+        <Link
+          href={blog.url.startsWith('http') ? blog.url : `https://${blog.url}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          underline="hover"
+        >
+          {blog.url}
+        </Link>
       </Typography>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
