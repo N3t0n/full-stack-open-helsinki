@@ -10,7 +10,12 @@ const Home = () => {
       <Typography variant="body1" paragraph>
         BlogList is a fullstack application built to put into practice the concepts
         covered throughout the{' '}
-        <Link href="https://fullstackopen.com" target="_blank" rel="noopener noreferrer">
+        <Link
+          href="https://fullstackopen.com"
+          color="secondary"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Full Stack Open
         </Link>{' '}
         course. It brings together authentication, routing, protected actions,
@@ -32,6 +37,7 @@ const Home = () => {
 
       <Link
         href="https://github.com/N3t0n/full-stack-open-helsinki"
+        color="secondary"
         target="_blank"
         rel="noopener noreferrer"
         underline="hover"

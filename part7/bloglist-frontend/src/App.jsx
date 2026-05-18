@@ -149,7 +149,7 @@ const App = () => {
                   Hi, {user.username}
                 </Typography>
 
-                <Button color="warning" variant="contained" size="small" onClick={handleLogout}>
+                <Button color="error" variant="contained" size="small" onClick={handleLogout}>
                   Logout
                 </Button>
               </>

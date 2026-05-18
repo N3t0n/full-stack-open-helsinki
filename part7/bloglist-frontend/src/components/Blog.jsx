@@ -23,6 +23,7 @@ const Blog = ({ user, blog, addLike, removeBlog }) => {
       <Typography gutterBottom>
         <Link
           href={blog.url.startsWith('http') ? blog.url : `https://${blog.url}`}
+          color="secondary"
           target="_blank"
           rel="noopener noreferrer"
           underline="hover"
@@ -37,7 +38,7 @@ const Blog = ({ user, blog, addLike, removeBlog }) => {
         </Typography>
 
         {user && (
-          <Button onClick={() => addLike(blog)}>like</Button>
+          <Button color="secondary" onClick={() => addLike(blog)}>like</Button>
         )}
       </Box>
 

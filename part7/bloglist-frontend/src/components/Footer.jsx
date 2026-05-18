@@ -7,6 +7,7 @@ const Footer = () => {
         Developed by{' '}
         <Link
           href="https://github.com/N3t0n"
+          color="secondary"
           target="_blank"
           rel="noopener noreferrer"
           underline="hover"
