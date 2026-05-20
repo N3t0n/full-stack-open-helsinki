@@ -9,6 +9,8 @@ const logger = require('./utils/logger')
 const middleware = require('./utils/middleware')
 const mongoose = require('mongoose')
 
+const path = require('path')
+
 logger.info('Connecting to', config.MONGODB_URI)
 
 mongoose.connect(config.MONGODB_URI)
@@ -30,6 +32,14 @@ app.use('/api/login', loginRouter)
 if (process.env.NODE_ENV === 'test') {
   const testingRouter = require('./controllers/testing')
   app.use('/api/testing', testingRouter)
+}
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/dist')))
+
+  app.get('/*splat', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'))
+  })
 }
 
 app.use(middleware.unknownEndpoint)
